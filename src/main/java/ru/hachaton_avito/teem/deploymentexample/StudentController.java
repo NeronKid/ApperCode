@@ -1,4 +1,4 @@
-package com.github.romankh3.deploymentexample;
+package ru.hachaton_avito.teem.deploymentexample;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;

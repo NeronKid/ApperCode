@@ -1,4 +1,4 @@
-package com.github.romankh3.deploymentexample;
+package ru.hachaton_avito.teem.deploymentexample;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

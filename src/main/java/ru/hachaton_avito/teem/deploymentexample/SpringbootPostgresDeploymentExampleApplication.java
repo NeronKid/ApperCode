@@ -1,4 +1,4 @@
-package com.github.romankh3.deploymentexample;
+package ru.hachaton_avito.teem.deploymentexample;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
