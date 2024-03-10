@@ -2,6 +2,8 @@ package ru.hachaton_avito.team.deployment;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import ru.hachaton_avito.team.deployment.dto.LocationDto;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,10 +31,8 @@ public class StudentController {
   }
 
   @PostMapping
-  public StudentEntity save(@RequestBody StudentCreateDto createDto) {
+  public StudentEntity save(@RequestBody LocationDto createDto) {
     StudentEntity studentEntity = new StudentEntity();
-    studentEntity.setName(createDto.getName());
-    studentEntity.setEmail(createDto.getEmail());
     return studentRepository.save(studentEntity);
   }
 
