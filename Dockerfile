@@ -1,8 +1,8 @@
 FROM adoptopenjdk/openjdk11:ubi
 ARG JAR_FILE=target/*.jar
-ENV DB_USERNAME=example
-ENV DB_PASSWORD=example
-ENV DB_NAME=example
+ENV DB_USERNAME=USER
+ENV DB_PASSWORD=PASSWORD
+ENV DB_NAME=avito_hackathon_db
 ENV DB_HOST=localhost
 ENV DB_PORT=5432
 ENV APP_PORT=8080
