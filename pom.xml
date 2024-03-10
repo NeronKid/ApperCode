@@ -12,7 +12,6 @@
 	<artifactId>deployment</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>deployment</name>
-	<description>The project shows how to fast and easy add deployment process to Java app with database</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>

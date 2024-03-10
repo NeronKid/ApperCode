@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: db
+    image: 'postgres:latest'
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    env_file:
+      - .env
+    restart: unless-stopped
+  app:
+    container_name: app
+    depends_on:
+      - db
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    build:
+      context: .
+    environment:
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      APP_PORT: ${APP_PORT}
+    restart: unless-stopped
