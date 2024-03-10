@@ -9,10 +9,6 @@ import jakarta.validation.constraints.NotEmpty;
 public class LocationDto {
 	private Long id;
 	@NotEmpty
-	private String country;
-	@NotEmpty
-	private String region;
-	@NotEmpty
-	private String city;
+	private String name;
 	
 }
