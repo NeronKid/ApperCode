@@ -1,4 +1,4 @@
-package ru.hachaton_avito.teem.deploymentexample;
+package ru.hachaton_avito.team.deployment;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
