@@ -3,7 +3,7 @@ package ru.hachaton_avito.team.generated;
 import java.util.List;
 import java.util.Map;
 
-class ExampleMain {
+public class ExampleMain {
     public static void mainExample () {
         Boolean isBDFull = false; // это пример проверки на пустую БД
 
