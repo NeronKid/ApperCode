@@ -9,5 +9,5 @@ public interface UserDiscountService {
 
 	public List<Location> getLocationsByCategory(Category category);
 	
-	public List<User> getUserWithDiscount();
+	//public List<User> getUserWithDiscount();
 }
