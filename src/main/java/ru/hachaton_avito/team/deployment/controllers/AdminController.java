@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.hachaton_avito.team.deployment.dto.CategoryDto;
 import ru.hachaton_avito.team.deployment.dto.DiscountDto;
 import ru.hachaton_avito.team.deployment.dto.LocationDto;
+import ru.hachaton_avito.team.deployment.dto.PriceDto;
 import ru.hachaton_avito.team.deployment.dto.UserDto;
 import ru.hachaton_avito.team.deployment.models.NewPrice;
 import ru.hachaton_avito.team.deployment.models.User;
@@ -84,16 +85,20 @@ public class AdminController {
 
 
     @GetMapping("/priсe/{idLocation}/{idCategory}")
-    public NewPrice generatePrice() {
-    	
-		return null;
+    public NewPrice generatePrice(LocationDto location, CategoryDto category) {
+    	NewPrice newPrice = new NewPrice();
+		return newPrice;
     }
     
 
 
-    @PostMapping("/priсe") 
-    public void priceCreate (NewPrice newPrice) {
-    	
+    @PostMapping("/priсe/{idLocation}/{idCategory}/change") 
+    public PriceDto priceCreate (NewPrice newPrice) {
+    	PriceDto priceDto = new PriceDto();
+    	priceDto.setIdCategory(newPrice.getIdCategory());
+    	priceDto.setIdLocation(newPrice.getIdLocation());
+    	priceDto.setPrice(newPrice.getPriсe());
+		return priceDto;
     }
     //будешь получать NewPrice() и вносить в PriceDto
 }

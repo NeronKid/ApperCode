@@ -17,5 +17,4 @@ public class CategoryDto {
 	@Id
     Long id;
 	String name;
-	
 }
