@@ -1,5 +1,6 @@
 package ru.hachaton_avito.team.deployment.controllers;
 
+
 public class LocationController {
 
 //  private final StudentRepository studentRepository;
