@@ -18,5 +18,5 @@ public class PriceDto {
     Long id;
     Long idLocation;
     Long idCategory;
-    Long prise;
+    Long price;
 }

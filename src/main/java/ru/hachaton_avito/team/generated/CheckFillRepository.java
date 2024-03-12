@@ -57,7 +57,7 @@ public class CheckFillRepository {
                 LocationGraphDto locationGraphNew = new LocationGraphDto();
                 locationGraphNew.setId(node.id);
                 locationGraphNew.setIdParent(parentId);
-                locationGraph.save(categoryGraphNew);
+                locationGraph.save(locationGraphNew);
             });
         }
     }

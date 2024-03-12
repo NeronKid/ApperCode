@@ -1,15 +1,16 @@
 package ru.hachaton_avito.team.deployment.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.hachaton_avito.team.deployment.dto.CategoryDto;
 import ru.hachaton_avito.team.deployment.dto.DiscountDto;
 import ru.hachaton_avito.team.deployment.dto.LocationDto;
 import ru.hachaton_avito.team.deployment.dto.UserDto;
+import ru.hachaton_avito.team.deployment.models.NewPrice;
 import ru.hachaton_avito.team.deployment.models.User;
 import ru.hachaton_avito.team.deployment.repository.*;
 
@@ -70,7 +71,7 @@ public class AdminController {
     @GetMapping("/user/{id}")
     public User findUser(@PathVariable Long id) {
         UserDto userDto = user.findById(id).orElse(null);
-        List<DiscountDto> discountDto = discount.findByIdUser(item.getId());
+        List<DiscountDto> discountDto = discount.findByIdUser(userDto.getId());
         List<Integer> discounts = discountDto.stream()
                 .map(DiscountDto::getDiscount)
                 .collect(Collectors.toList());
@@ -82,8 +83,17 @@ public class AdminController {
     }
 
 
-    //@GetMapping("/prise/{idLocation}/{idCategory}")
+    @GetMapping("/priсe/{idLocation}/{idCategory}")
+    public NewPrice generatePrice() {
+    	
+		return null;
+    }
+    
 
 
-    //@PostMapping("/prise")  будешь получать NewPrice() и вносить в PriceDto
+    @PostMapping("/priсe") 
+    public void priceCreate (NewPrice newPrice) {
+    	
+    }
+    //будешь получать NewPrice() и вносить в PriceDto
 }

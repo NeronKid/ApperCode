@@ -1,4 +1,4 @@
-package ru.hachaton_avito.team.deployment;
+package ru.hachaton_avito.team.deployment.controllers;
 
 public class LocationController {
 
