@@ -1,12 +1,20 @@
 package ru.hachaton_avito.team.deployment.dto;
 
-import lombok.Builder;
-import lombok.Data;
+
+import jakarta.persistence.*;
+import lombok.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@Setter
+@Getter
+@Table(name = "location_graph")
+@Entity(name = "location_graph")
 public class LocationGraphDto {
-    private Long id;
 
-    private Long parentId; // может быть null
+	@Id
+	Long id;
+	Long idParent;
 }

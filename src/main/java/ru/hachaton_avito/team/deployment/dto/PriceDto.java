@@ -1,23 +1,22 @@
-package ru.hachaton_avito.team.deployment.models;
+package ru.hachaton_avito.team.deployment.dto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "roles")
-public class Role {
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private Long id;
-		private String name;
+@Entity(name = "price_table")
+public class PriceDto {
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
+    Long idLocation;
+    Long idCategory;
+    Long prise;
 }
-

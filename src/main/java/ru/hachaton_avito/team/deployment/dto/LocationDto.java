@@ -1,14 +1,22 @@
 package ru.hachaton_avito.team.deployment.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@Getter
+@Setter
+@Table(name = "location")
+@Entity(name = "location")
 public class LocationDto {
-	private Long id;
-	@NotEmpty
-	private String name;
-	
+	@Id
+	Long id;
+	String name;
 }
