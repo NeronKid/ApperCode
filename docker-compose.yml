@@ -1,29 +1,27 @@
 version: "3.9"
 
 services:
-  example-app:
-    container_name: example-app
+  db:
+    container_name: db
+    image: 'postgres:latest'
+    ports:
+      - "${DB_PORT_LOCAL}:${DB_PORT}"
+    env_file:
+      - .env
+    restart: unless-stopped
+  app:
+    container_name: app
     depends_on:
-      -   example-db
+      - db
     ports:
       - "${APP_PORT}:${APP_PORT}"
     build:
       context: .
     environment:
-      DB_USERNAME: ${DB_USERNAME:?dbUserNameNorProvided}
-      DB_PASSWORD: ${DB_PASSWORD:?dbPasswordNotProvided}
-      DB_NAME: ${DB_NAME:?dbNameNotProvided}
-      DB_HOST: example-db
-      DB_PORT: 5432
-      APP_PORT: ${APP_PORT:?appPortNotProvided}
-    restart: unless-stopped
-  example-db:
-    container_name: example-db
-    image: 'postgres:13.1-alpine'
-    ports:
-      - "${DB_PORT}:5432"
-    environment:
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      DB_HOST: localhost
+      DB_PORT: ${DB_PORT_LOCAL}
+      APP_PORT: ${APP_PORT}
     restart: unless-stopped
