@@ -91,3 +91,19 @@ json { "name": "Илья" }
 
 Пример ответа:
 json { "id": 2, "name": "Имя", "discount": [1,2,3,4,5] }
+
+# Для запуска локально
+
+### 1.Для запуска локально устанавливаем докер:
+[https://www.docker.com/get-started/](get-started докер)
+
+### 2. При сборке проекта обязательно выполняем:
+```mvn clean```
+```mvn install```
+
+### 3. Развернуть контейнер с переменными окружения .env file
+```docker-compose --env-file .env up --build -d```
+
+### 4. Остановить контейнер
+```docker-compose --env-file .env stop```
+
