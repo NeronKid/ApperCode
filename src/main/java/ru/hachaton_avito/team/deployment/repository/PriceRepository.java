@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface PriceRepository extends JpaRepository<PriceDto, Long> {
 
-    @Query("SELECT FROM price_table WHERE idLocation = :locationId AND idCategory = :categoryId")
+    @Query("SELECT value FROM PriceDto value WHERE value.idLocation = :locationId AND value.idCategory = :categoryId")
     List<PriceDto> findByLocationIdAndCategoryId(@Param("locationId") Long locationId, @Param("categoryId") Long categoryId);
 }

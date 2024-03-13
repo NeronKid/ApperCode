@@ -1,5 +1,6 @@
 package ru.hachaton_avito.team.deployment.dto;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.Id;
@@ -12,8 +13,8 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-@Table(name = "location")
-@Entity(name = "location")
+@Table
+@Entity
 public class LocationDto {
 	@Id
 	Long id;

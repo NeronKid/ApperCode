@@ -9,8 +9,8 @@ import lombok.*;
 @Builder
 @Setter
 @Getter
-@Table(name = "discount")
-@Entity(name = "discount")
+@Table
+@Entity
 public class DiscountDto {
 
     @Id

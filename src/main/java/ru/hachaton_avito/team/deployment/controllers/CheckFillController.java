@@ -1,5 +1,11 @@
-package ru.hachaton_avito.team.generated;
+package ru.hachaton_avito.team.deployment.controllers;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.hachaton_avito.team.deployment.dto.CategoryDto;
 import ru.hachaton_avito.team.deployment.dto.CategoryGraphDto;
 import ru.hachaton_avito.team.deployment.dto.LocationDto;
@@ -8,17 +14,24 @@ import ru.hachaton_avito.team.deployment.repository.CategoryGraphRepository;
 import ru.hachaton_avito.team.deployment.repository.CategoryRepository;
 import ru.hachaton_avito.team.deployment.repository.LocationGraphRepository;
 import ru.hachaton_avito.team.deployment.repository.LocationRepository;
+import ru.hachaton_avito.team.generated.CategoryNode;
+import ru.hachaton_avito.team.generated.CategoryTree;
+import ru.hachaton_avito.team.generated.LocationNode;
+import ru.hachaton_avito.team.generated.LocationTree;
 
-public class CheckFillRepository {
+public class CheckFillController {
 
+    @Autowired
     CategoryRepository category;
+    @Autowired
     LocationRepository location;
+    @Autowired
     LocationGraphRepository locationGraph;
+    @Autowired
     CategoryGraphRepository categoryGraph;
 
     public void checkAndUpdateCategory() {
-        Long categoryCount = category.count();
-
+        long categoryCount = category.count();
         if (categoryCount < 1) {
             CategoryTree categoryTree = new CategoryTree();
             CategoryNode rootCategoryNode = categoryTree.getCategoriesTree();
@@ -33,15 +46,14 @@ public class CheckFillRepository {
                 categoryGraphNew.setId(node.id);
                 categoryGraphNew.setIdParent(parentId);
                 categoryGraph.save(categoryGraphNew);
-
-                //тут вызываешь метод добавления в БД для CategoryGraphDto(node.id, parentId)
             });
         }
     }
 
 
     public void checkAndUpdateLocation() {
-        Long locationCount = location.count();
+        long locationCount = location.count();
+
         if (locationCount < 1) {
             LocationTree locationTree = new LocationTree();
             LocationNode rootLocationNode = locationTree.getLocationsTree();

@@ -10,8 +10,8 @@ import lombok.*;
 @Builder
 @Setter
 @Getter
-@Table(name = "category_graph")
-@Entity(name = "category_graph")
+@Table
+@Entity
 public class CategoryGraphDto {
 	@Id
 	Long id;

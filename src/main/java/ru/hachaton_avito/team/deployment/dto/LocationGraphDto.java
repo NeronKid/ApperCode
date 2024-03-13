@@ -10,8 +10,8 @@ import lombok.*;
 @Builder
 @Setter
 @Getter
-@Table(name = "location_graph")
-@Entity(name = "location_graph")
+@Table
+@Entity
 public class LocationGraphDto {
 
 	@Id

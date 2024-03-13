@@ -2,6 +2,7 @@ package ru.hachaton_avito.team.deployment.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import ru.hachaton_avito.team.deployment.dto.*;
 import ru.hachaton_avito.team.deployment.models.BaseData;

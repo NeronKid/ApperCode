@@ -1,5 +1,6 @@
 package ru.hachaton_avito.team.deployment.dto;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -11,8 +12,8 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-@Table(name = "category")
-@Entity(name = "category")
+@Table
+@Entity
 public class CategoryDto {
 	@Id
     Long id;

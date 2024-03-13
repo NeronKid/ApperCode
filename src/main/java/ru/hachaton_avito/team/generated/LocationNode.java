@@ -8,9 +8,9 @@ import java.util.function.BiConsumer;
 public class LocationNode {
     private static long locationID = 0;
 
-    long id;
-    String name;
-    List<LocationNode> children;
+    public  long id;
+    public String name;
+    public List<LocationNode> children;
 
     public LocationNode(long id, String name) {
         this.id = id;

@@ -8,9 +8,9 @@ import java.util.function.BiConsumer;
 public class CategoryNode {
     private static long categoryID = 0;
 
-    final long id;
-    final String name;
-    final List<CategoryNode> children;
+    public long id;
+    public String name;
+    public List<CategoryNode> children;
 
     public CategoryNode(long id, String name) {
         this.id = id;

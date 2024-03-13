@@ -6,10 +6,11 @@ import lombok.*;
 @Data
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "user_table")
-@Table(name = "user_table")
+@Table
+@Entity
 public class UserDto {
 
     @Id

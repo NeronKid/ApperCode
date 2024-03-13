@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface DiscountRepository extends JpaRepository<DiscountDto, Long> {
-    @Query("SELECT FROM discount WHERE idUser = :userId")
+    @Query("SELECT value FROM DiscountDto value WHERE value.idUser = :userId")
     List<DiscountDto> findByIdUser(@Param("userId") Long userId);
 }
