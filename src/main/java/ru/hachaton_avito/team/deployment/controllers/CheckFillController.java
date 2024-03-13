@@ -1,11 +1,6 @@
 package ru.hachaton_avito.team.deployment.controllers;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.ConfigurableApplicationContext;
 import ru.hachaton_avito.team.deployment.dto.CategoryDto;
 import ru.hachaton_avito.team.deployment.dto.CategoryGraphDto;
 import ru.hachaton_avito.team.deployment.dto.LocationDto;
@@ -20,17 +15,14 @@ import ru.hachaton_avito.team.generated.LocationNode;
 import ru.hachaton_avito.team.generated.LocationTree;
 
 public class CheckFillController {
-
-    @Autowired
-    CategoryRepository category;
-    @Autowired
-    LocationRepository location;
-    @Autowired
-    LocationGraphRepository locationGraph;
-    @Autowired
-    CategoryGraphRepository categoryGraph;
+    public CheckFillController(ConfigurableApplicationContext context) {
+        this.context = context;
+    }
+    ConfigurableApplicationContext context;
 
     public void checkAndUpdateCategory() {
+        CategoryRepository category = context.getBean(CategoryRepository.class);
+        CategoryGraphRepository categoryGraph = context.getBean(CategoryGraphRepository.class);
         long categoryCount = category.count();
         if (categoryCount < 1) {
             CategoryTree categoryTree = new CategoryTree();
@@ -52,6 +44,8 @@ public class CheckFillController {
 
 
     public void checkAndUpdateLocation() {
+        LocationRepository location = context.getBean(LocationRepository.class);
+        LocationGraphRepository locationGraph = context.getBean(LocationGraphRepository.class);
         long locationCount = location.count();
 
         if (locationCount < 1) {

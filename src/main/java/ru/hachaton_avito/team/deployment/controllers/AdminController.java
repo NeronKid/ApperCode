@@ -1,9 +1,10 @@
 package ru.hachaton_avito.team.deployment.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import ru.hachaton_avito.team.deployment.Application;
 import ru.hachaton_avito.team.deployment.dto.*;
 import ru.hachaton_avito.team.deployment.models.BaseData;
 import ru.hachaton_avito.team.deployment.models.NewPrice;
@@ -16,16 +17,23 @@ import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("data")
+@RequestMapping("api_v1")
 @RequiredArgsConstructor
 public class AdminController {
 
+    @Autowired
     CategoryRepository categoryRepo;
+    @Autowired
     LocationRepository locationRepo;
+    @Autowired
     LocationGraphRepository locationGraphRepo;
+    @Autowired
     CategoryGraphRepository categoryGraphRepo;
+    @Autowired
     DiscountRepository discountRepo;
+    @Autowired
     UserRepository userRepo;
+    @Autowired
     PriceRepository priceRepo;
 
     @Scheduled
