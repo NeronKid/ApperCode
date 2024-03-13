@@ -95,7 +95,7 @@ json { "id": 2, "name": "Имя", "discount": [1,2,3,4,5] }
 # Для запуска локально
 
 ### 1.Для запуска локально устанавливаем докер:
-[https://www.docker.com/get-started/](get-started докер)
+[get-started docker](https://www.docker.com/get-started/)
 
 ### 2. При сборке проекта обязательно выполняем:
 ```mvn clean```
