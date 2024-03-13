@@ -10,9 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewPrice {
-    Long idLocation;
-    Long idCategory;
-    Long price;
-    Long isUser;
+public class NewUser {
+    String name;
 }

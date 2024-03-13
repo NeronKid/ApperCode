@@ -14,6 +14,7 @@ import lombok.*;
 public class UserDto {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     String name;
 }

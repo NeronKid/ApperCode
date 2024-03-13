@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.hachaton_avito.team.deployment.dto.*;
 import ru.hachaton_avito.team.deployment.models.BaseData;
 import ru.hachaton_avito.team.deployment.models.NewPrice;
+import ru.hachaton_avito.team.deployment.models.NewUser;
 import ru.hachaton_avito.team.deployment.models.User;
 import ru.hachaton_avito.team.deployment.repository.*;
 
@@ -110,24 +111,45 @@ public class AdminController {
     }
 
     @Scheduled
+    @PostMapping("/user")
+    public User postUsers(@RequestBody NewUser newUser) {
+        UserDto inDto = new UserDto();
+        inDto.setName(newUser.getName());
+        UserDto user = userRepo.save(inDto);
+        List<DiscountDto> discountDto = discountRepo.findByIdUser(user.getId());
+        List<Integer> discounts = discountDto.stream()
+                .map(DiscountDto::getDiscount)
+                .collect(Collectors.toList());
+        User userSend = new User();
+        userSend.setId(user.getId());
+        userSend.setName(user.getName());
+        userSend.setDiscount(discounts);
+        return userSend;
+    }
+
+    @Scheduled
     @PostMapping("/priсe")
     public BaseData priceCreate(@RequestBody NewPrice newPrice) {
         PriceDto priceSendInDto = new PriceDto();
         priceSendInDto.setIdCategory(newPrice.getIdCategory());
         priceSendInDto.setIdLocation(newPrice.getIdLocation());
         priceSendInDto.setPrice(newPrice.getPrice());
-
+        priceSendInDto.setIdUser(newPrice.getIsUser());
+        User findUser = findUser(newPrice.getIsUser());
+        if (findUser == null) return null;
         PriceDto priceDto = priceRepo.save(priceSendInDto);
         LocationDto location = findLocation(priceDto.getIdLocation());
         if (location == null) return null;
         CategoryDto category = findCategories(priceDto.getIdCategory());
         if (category == null) return null;
         List<PriceDto> prices = priceRepo.findByLocationIdAndCategoryId(location.getId(), category.getId());
-        if (prices == null) return null;
+        if (prices.isEmpty()) return null;
         List<User> users = new ArrayList<>();
         prices.forEach(price -> {
             User user = findUser(price.getIdUser());
-            users.add(user);
+            if (user != null) {
+                users.add(user);
+            }
         });
 
         BaseData baseData = new BaseData();
