@@ -1,10 +1,8 @@
 package ru.hachaton_avito.team.deployment.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
-import ru.hachaton_avito.team.deployment.Application;
 import ru.hachaton_avito.team.deployment.dto.*;
 import ru.hachaton_avito.team.deployment.models.BaseData;
 import ru.hachaton_avito.team.deployment.models.NewPrice;
@@ -21,20 +19,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminController {
 
-    @Autowired
-    CategoryRepository categoryRepo;
-    @Autowired
-    LocationRepository locationRepo;
-    @Autowired
-    LocationGraphRepository locationGraphRepo;
-    @Autowired
-    CategoryGraphRepository categoryGraphRepo;
-    @Autowired
-    DiscountRepository discountRepo;
-    @Autowired
-    UserRepository userRepo;
-    @Autowired
-    PriceRepository priceRepo;
+    private final CategoryRepository categoryRepo;
+    private final LocationRepository locationRepo;
+    private final LocationGraphRepository locationGraphRepo;
+    private final CategoryGraphRepository categoryGraphRepo;
+    private final DiscountRepository discountRepo;
+    private final UserRepository userRepo;
+    private final PriceRepository priceRepo;
 
     @Scheduled
     @GetMapping("/location")
