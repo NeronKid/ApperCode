@@ -16,6 +16,7 @@ import lombok.Setter;
 public class PriceDto {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+    Long idUser;
     Long idLocation;
     Long idCategory;
     Long price;

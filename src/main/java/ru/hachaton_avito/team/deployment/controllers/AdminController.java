@@ -1,22 +1,17 @@
 package ru.hachaton_avito.team.deployment.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.hachaton_avito.team.deployment.dto.CategoryDto;
-import ru.hachaton_avito.team.deployment.dto.DiscountDto;
-import ru.hachaton_avito.team.deployment.dto.LocationDto;
-import ru.hachaton_avito.team.deployment.dto.PriceDto;
-import ru.hachaton_avito.team.deployment.dto.UserDto;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.*;
+import ru.hachaton_avito.team.deployment.dto.*;
+import ru.hachaton_avito.team.deployment.models.BaseData;
 import ru.hachaton_avito.team.deployment.models.NewPrice;
 import ru.hachaton_avito.team.deployment.models.User;
 import ru.hachaton_avito.team.deployment.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,39 +19,45 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminController {
 
-    CategoryRepository category;
-    LocationRepository location;
-    LocationGraphRepository locationGraph;
-    CategoryGraphRepository categoryGraph;
-    DiscountRepository discount;
-    UserRepository user;
+    CategoryRepository categoryRepo;
+    LocationRepository locationRepo;
+    LocationGraphRepository locationGraphRepo;
+    CategoryGraphRepository categoryGraphRepo;
+    DiscountRepository discountRepo;
+    UserRepository userRepo;
+    PriceRepository priceRepo;
 
+    @Scheduled
     @GetMapping("/location")
-    public List<LocationDto> location() {
-        return location.findAll();
+    public List<LocationDto> getLocation() {
+        return locationRepo.findAll();
     }
 
+    @Scheduled
     @GetMapping("/category")
-    public List<CategoryDto> categories() {
-        return category.findAll();
+    public List<CategoryDto> getCategories() {
+        return categoryRepo.findAll();
     }
 
+    @Scheduled
     @GetMapping("/location/{id}")
     public LocationDto findLocation(@PathVariable Long id) {
-        return location.findById(id).orElse(null);
+        return locationRepo.findById(id).orElse(null);
     }
 
+    @Scheduled
     @GetMapping("/category/{id}")
     public CategoryDto findCategories(@PathVariable Long id) {
-        return category.findById(id).orElse(null);
+        return categoryRepo.findById(id).orElse(null);
     }
 
+    @Scheduled
     @GetMapping("/user")
-    public List<User> users() {
+    public List<User> getUsers() {
         List<User> usersNew = new ArrayList<>();
-        List<UserDto> userDto = user.findAll();
+        List<UserDto> userDto = userRepo.findAll();
         userDto.forEach(item -> {
-            List<DiscountDto> discountDto = discount.findByIdUser(item.getId());
+            List<DiscountDto> discountDto = discountRepo.findByIdUser(item.getId());
             List<Integer> discounts = discountDto.stream()
                     .map(DiscountDto::getDiscount)
                     .collect(Collectors.toList());
@@ -69,36 +70,73 @@ public class AdminController {
         return usersNew;
     }
 
+    @Scheduled
     @GetMapping("/user/{id}")
     public User findUser(@PathVariable Long id) {
-        UserDto userDto = user.findById(id).orElse(null);
-        List<DiscountDto> discountDto = discount.findByIdUser(userDto.getId());
-        List<Integer> discounts = discountDto.stream()
-                .map(DiscountDto::getDiscount)
-                .collect(Collectors.toList());
-        User newUser = new User();
-        newUser.setId(userDto.getId());
-        newUser.setName(userDto.getName());
-        newUser.setDiscount(discounts);
-        return newUser;
+        return userRepo.findById(id).map(userDto -> {
+            List<DiscountDto> discountDto = discountRepo.findByIdUser(userDto.getId());
+            List<Integer> discounts = discountDto.stream()
+                    .map(DiscountDto::getDiscount)
+                    .collect(Collectors.toList());
+            User newUser = new User();
+            newUser.setId(userDto.getId());
+            newUser.setName(userDto.getName());
+            newUser.setDiscount(discounts);
+            return newUser;
+        }).orElse(null);
     }
 
-
-    @GetMapping("/priсe/{idLocation}/{idCategory}")
-    public NewPrice generatePrice(LocationDto location, CategoryDto category) {
-    	NewPrice newPrice = new NewPrice();
-		return newPrice;
+    @Scheduled
+    @GetMapping("/price/{idLocation}/{idCategory}")
+    public BaseData generatePrice(@PathVariable Long idLocation, @PathVariable Long idCategory) {
+        List<PriceDto> prices = priceRepo.findByLocationIdAndCategoryId(idLocation, idCategory);
+        if (prices == null) return null;
+        LocationDto location = findLocation(idLocation);
+        if (location == null) return null;
+        CategoryDto category = findCategories(idCategory);
+        if (category == null) return null;
+        List<User> users = new ArrayList<>();
+        prices.forEach(price -> {
+            User user = findUser(price.getIdUser());
+            users.add(user);
+        });
+        BaseData baseData = new BaseData();
+        baseData.setCategory(category);
+        baseData.setLocation(location);
+        baseData.setUserAndPrice(users);
+        OptionalDouble averagePrice = prices.stream().mapToLong(PriceDto::getPrice).average();
+        baseData.setPrice(averagePrice.isPresent() ? (long) averagePrice.getAsDouble() : 0L);
+        return baseData;
     }
-    
 
+    @Scheduled
+    @PostMapping("/priсe")
+    public BaseData priceCreate(@RequestBody NewPrice newPrice) {
+        PriceDto priceSendInDto = new PriceDto();
+        priceSendInDto.setIdCategory(newPrice.getIdCategory());
+        priceSendInDto.setIdLocation(newPrice.getIdLocation());
+        priceSendInDto.setPrice(newPrice.getPrice());
 
-    @PostMapping("/priсe/{idLocation}/{idCategory}/change") 
-    public PriceDto priceCreate (NewPrice newPrice) {
-    	PriceDto priceDto = new PriceDto();
-    	priceDto.setIdCategory(newPrice.getIdCategory());
-    	priceDto.setIdLocation(newPrice.getIdLocation());
-    	priceDto.setPrice(newPrice.getPriсe());
-		return priceDto;
+        PriceDto priceDto = priceRepo.save(priceSendInDto);
+        LocationDto location = findLocation(priceDto.getIdLocation());
+        if (location == null) return null;
+        CategoryDto category = findCategories(priceDto.getIdCategory());
+        if (category == null) return null;
+        List<PriceDto> prices = priceRepo.findByLocationIdAndCategoryId(location.getId(), category.getId());
+        if (prices == null) return null;
+        List<User> users = new ArrayList<>();
+        prices.forEach(price -> {
+            User user = findUser(price.getIdUser());
+            users.add(user);
+        });
+
+        BaseData baseData = new BaseData();
+        baseData.setCategory(category);
+        baseData.setLocation(location);
+        baseData.setUserAndPrice(users);
+        OptionalDouble averagePrice = prices.stream().mapToLong(PriceDto::getPrice).average();
+        baseData.setPrice(averagePrice.isPresent() ? (long) averagePrice.getAsDouble() : 0L);
+
+        return baseData;
     }
-    //будешь получать NewPrice() и вносить в PriceDto
 }

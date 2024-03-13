@@ -5,11 +5,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.hachaton_avito.team.deployment.dto.CategoryDto;
-import ru.hachaton_avito.team.deployment.dto.DiscountDto;
-import ru.hachaton_avito.team.deployment.dto.UserDto;
+import ru.hachaton_avito.team.deployment.dto.PriceDto;
 
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserDto, Long> {
+public interface PriceRepository extends JpaRepository<PriceDto, Long> {
+
+    @Query("SELECT FROM price_table WHERE idLocation = :locationId AND idCategory = :categoryId")
+    List<PriceDto> findByLocationIdAndCategoryId(@Param("locationId") Long locationId, @Param("categoryId") Long categoryId);
 }

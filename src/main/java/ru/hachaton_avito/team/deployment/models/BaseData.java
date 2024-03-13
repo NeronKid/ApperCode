@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.hachaton_avito.team.deployment.dto.CategoryDto;
 import ru.hachaton_avito.team.deployment.dto.LocationDto;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "base_data")

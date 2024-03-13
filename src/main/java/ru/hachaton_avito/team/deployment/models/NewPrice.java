@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class NewPrice {
     Long idLocation;
     Long idCategory;
-    Long priсe;
+    Long price;
 }
